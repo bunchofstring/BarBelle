@@ -9,7 +9,7 @@ import androidx.core.widget.NestedScrollView
 /**
  * 1. When the content starts scrolling, then highlight the scrollbar thumb
  * 2. When the content stops scrolling, then un-highlight the scrollbar thumb
- * 3. Note: Ideally the solution can easily be applied for all scrollable views (1) within one app (2) within all apps running on a particular android user (3) within any installed app
+ * 3. Note: Ideally the solution can easily be applied for all scrollable views (1) within one app (2) within all apps running on a particular android user (3) within any installed app on a particular device
  */
 
 class MainActivity : AppCompatActivity() {
