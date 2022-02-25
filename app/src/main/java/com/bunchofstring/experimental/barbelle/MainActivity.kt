@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
             if (p1?.action == MotionEvent.ACTION_UP) {
                 p0?.postDelayed({
                     p0.isPressed = false
-                }, 1000) //TODO: Eliminate this ugly delay. Problem is that the scrolling animation may take Ideally, isPressed is set after the scrolling animation ends.
+                }, 1000) //TODO: Eliminate this ugly delay. Problem is that after the finger lifts off, the scrolling animation may take a while to finish - even longer than a second. Ideally, isPressed is set after the scrolling animation ends.
             }
             false
         }
