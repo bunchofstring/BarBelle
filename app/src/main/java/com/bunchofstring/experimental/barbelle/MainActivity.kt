@@ -13,22 +13,38 @@ import androidx.core.widget.NestedScrollView
  */
 
 class MainActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        manageThumbState(findViewById(R.id.exampleScrollView))
+    }
+
+    override fun onResume() {
+        super.onResume()
+        setupInteractionListeners(findViewById(R.id.exampleScrollView))
+    }
+
+    private fun setupInteractionListeners(sv: NestedScrollView){
+        val mid = MotionInteractionDetector(object: MotionInteractionDetector.MotionInteractionObserver{
+            override fun onStart() {
+                sv.isPressed = true
+            }
+            override fun onEnd() {
+                sv.isPressed = false
+            }
+        })
+        attachScrollView(sv,mid)
     }
 
     @SuppressLint("ClickableViewAccessibility")
-    private fun manageThumbState(sv: NestedScrollView){
+    fun attachScrollView(sv: NestedScrollView, mid: MotionInteractionDetector) {
         sv.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
-            v.isPressed = true
+            mid.onMotionY()
         })
         sv.setOnTouchListener { p0, p1 ->
-            if (p1?.action == MotionEvent.ACTION_UP) {
-                p0?.postDelayed({
-                    p0.isPressed = false
-                }, 1000) //TODO: Eliminate this ugly delay. Problem is that after the finger lifts off, the scrolling animation may take a while to finish - even longer than a second. Ideally, isPressed is set after the scrolling animation ends.
+            when(p1.action){
+                MotionEvent.ACTION_DOWN -> mid.onInteractionStart()
+                MotionEvent.ACTION_UP -> mid.onInteractionEnd()
             }
             false
         }
